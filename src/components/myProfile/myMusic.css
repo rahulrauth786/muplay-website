@@ -1,0 +1,15 @@
+.arw_btn {
+  width: 16px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 9px;
+  border: 0;
+  position: absolute;
+
+  cursor: pointer;
+}
+
+svg {
+  top: 320px;
+  right: 24px;
+}
