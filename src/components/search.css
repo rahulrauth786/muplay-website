@@ -1,0 +1,18 @@
+.onPlay5 {
+  position: absolute;
+  z-index: 1;
+  top: 70px;
+  left: 105px;
+  width: 48px;
+  height: 48px;
+  background-color: black;
+  opacity: 0.8;
+}
+
+.onPlay5:hover {
+  opacity: 1;
+}
+
+.dash {
+  padding: 25px;
+}

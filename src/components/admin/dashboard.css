@@ -1,0 +1,15 @@
+.heading {
+  background-color: rgb(250, 187, 15);
+  cursor: pointer;
+}
+
+.heading:hover {
+  background-color: rgb(248, 207, 95);
+  cursor: pointer;
+}
+
+.labels {
+  font-size: clamp(18px, 2vw, 22px);
+  border-top-right-radius: 50px;
+  font-weight: 700px;
+}
