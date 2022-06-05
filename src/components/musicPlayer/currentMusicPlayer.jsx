@@ -45,7 +45,7 @@ class CurrentMusicPage extends Component {
                       width="20"
                       height="20"
                       viewBox="0 0 24 24"
-                      onClick={() => this.props.onChangeSong(-1)}
+                      onClick={() => this.props.playPreviousSong(-1)}
                     >
                       <path
                         className="fill_path"
@@ -122,7 +122,7 @@ class CurrentMusicPage extends Component {
                       width="20"
                       height="20"
                       viewBox="0 0 24 24"
-                      onClick={() => this.props.onChangeSong(1)}
+                      onClick={() => this.props.playNextSong(1)}
                     >
                       <path
                         className="fill_path"
