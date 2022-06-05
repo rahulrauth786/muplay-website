@@ -1,3 +1,8 @@
+/*******
+ * Author - Rahul Routh
+ *
+ */
+
 import React, { Component } from "react";
 
 import Navbar from "./navbar";
@@ -14,6 +19,8 @@ import App_Music_List from "./app_music_list";
 import App_Play_Box from "./app_play_box";
 import Footer from "./footer";
 import PageNotFound from "./pageNotFound";
+import CustomLoader from "./common/loader";
+
 class Home1 extends Component {
   state = {
     currentSong: {},
@@ -39,10 +46,6 @@ class Home1 extends Component {
   }
   async componentDidMount() {
     let { option, type } = this.props.match.params;
-
-    getAppPlaylist().then((response) => {
-      this.setState({ playlist_type: response.data.playlists });
-    });
 
     if (option === "playlist") {
       let token = JSON.parse(localStorage.getItem("token"))
@@ -72,9 +75,6 @@ class Home1 extends Component {
     } else {
       let viewAll = option ? true : false;
       getSongs(option, type).then((response) => {
-        // gethorizonatalscorcard().then((res) => {
-        //   console.log(res);
-        // });
         if (response.data.msg === "success") {
           let songs = response.data.songs;
           let currentSong = songs[0];
@@ -152,6 +152,7 @@ class Home1 extends Component {
   // }
 
   async componentDidUpdate(prevProps, prevState) {
+    //handle api for songs fetch
     if (prevProps.match.params !== this.props.match.params) {
       let { option, type } = this.props.match.params;
       let viewAll = option ? true : false;
@@ -159,7 +160,7 @@ class Home1 extends Component {
       if (option) {
         try {
           let response = await getSongs(option, type);
-          if (response.data.msg === "success") {
+          if (response && response.data && response.data.msg === "success") {
             let songs = response.data.songs;
             console.log(songs);
             this.setState({
@@ -177,18 +178,24 @@ class Home1 extends Component {
         this.setState({ loading: true, viewAll });
       }
     }
+    //handle song State (play,pause,stop)
+    this.changeSongState(prevState);
+  }
+  componentWillUnmount() {
+    if (this.music) this.music.removeEventListener("timeupdate", () => {});
+  }
 
-    if (this.state.currentSong.title !== prevState.currentSong.title) {
+  changeSongState(prevState) {
+    if (this.state.currentSong.id !== prevState.currentSong.id) {
       if (this.state.currentSong.track && this.state.currentSong.music) {
         this.currentTime = 0;
         this.music.src = this.state.currentSong.track;
         this.music.play();
       }
     }
-
     if (
       this.state.currentSong.music !== prevState.currentSong.music &&
-      this.state.currentSong.title === prevState.currentSong.title
+      this.state.currentSong.id === prevState.currentSong.id
     ) {
       if (this.state.currentSong.music === false) {
         this.music.pause();
@@ -205,39 +212,38 @@ class Home1 extends Component {
       }
     }
   }
-  componentWillUnmount() {
-    if (this.music) this.music.removeEventListener("timeupdate", () => {});
-  }
 
-  handlePlayedSong = (value) => {
-    let currentSong = { ...this.state.currentSong };
-    let songs = [...this.state.songs];
-    if (value.title === currentSong.title) {
-      let index = songs.findIndex((song) => song.title === currentSong.title);
-      let updateSong = { ...songs[index], music: !songs[index].music };
-      songs[index] = updateSong;
-      currentSong.music = !currentSong.music;
-    } else {
-      let cindex = songs.findIndex((song) => song.title === value.title);
+  // saveSongState = (song) => {
+  //   alert("song");
+  //   let currentSong = { ...this.state.currentSong };
+  //   let songs = [...this.state.songs];
+  //   if (song.id === currentSong.id) {
+  //     let index = songs.findIndex((song) => song.id === currentSong.id);
+  //     let updateSong = { ...songs[index], music: !songs[index].music };
+  //     songs[index] = updateSong;
+  //     currentSong.music = !currentSong.music;
+  //   } else {
+  //     let cindex = songs.findIndex((song) => song.id === song.id);
 
-      let updateSong = { ...songs[cindex], music: !songs[cindex].music };
-      songs[cindex] = updateSong;
+  //     let updateSong = { ...songs[cindex], music: !songs[cindex].music };
+  //     songs[cindex] = updateSong;
 
-      let pindex = songs.findIndex(
-        (song) => song.title === this.state.currentSong.title
-      );
-      let updatePrevSong = { ...songs[pindex], music: false };
-      songs[pindex] = updatePrevSong;
-      currentSong = value;
-      currentSong.music = !currentSong.music;
-    }
-    this.setState({ currentSong, songs });
-  };
+  //     let pindex = songs.findIndex(
+  //       (song) => song.id === this.state.currentSong.id
+  //     );
+  //     let updatePrevSong = { ...songs[pindex], music: false };
+  //     songs[pindex] = updatePrevSong;
+  //     currentSong = song;
+  //     currentSong.music = !currentSong.music;
+  //   }
+  //   this.setState({ currentSong, songs });
+  // };
 
-  handleSound = (value) => {
+  changeSongSound = (value) => {
     this.music.volume = value;
   };
-  handlePlayedSong = (value) => {
+  saveSongState = (value) => {
+    alert("songss");
     let currentSong = { ...this.state.currentSong };
     let songs = [...this.state.songs];
     if (value.title === currentSong.title) {
@@ -262,7 +268,7 @@ class Home1 extends Component {
     this.setState({ currentSong, songs });
   };
 
-  handleChangeSong = (value) => {
+  changeSongPlayed = (value) => {
     let currentSong = this.state.currentSong;
     let songs = [...this.state.songs];
 
@@ -308,7 +314,7 @@ class Home1 extends Component {
       this.state;
     const currentTime = this.getTime(this.state.currentTime);
     const duration = this.getTime(this.state.duration);
-    let { option, type, song_title, song_id } = this.props.match.params;
+    let { option } = this.props.match.params;
 
     return (
       <div className="container-fluid px-0 mb-5 ">
@@ -332,12 +338,13 @@ class Home1 extends Component {
               songs={songs}
               currentTime={currentTime}
               duration={duration}
-              onUpdatePlayedSong={this.handlePlayedSong}
+              onUpdatePlayedSong={this.saveSongState}
               onSoundChange={this.handleSound}
               rawTime={this.state.currentTime}
               rawDuration={this.state.duration}
               loading={this.state.loading}
-              onChangeSong={this.handleChangeSong}
+              playPreviousSong={this.changeSongPlayed}
+              playNextSong={this.changeSongPlayed}
             />
 
             <div className="row">
@@ -347,20 +354,7 @@ class Home1 extends Component {
             </div>
           </>
         ) : (
-          <div
-            className="container-fluid w-100"
-            style={{
-              height: "100vh",
-              backgroundColor: "black",
-              opacity: 0.6,
-            }}
-          >
-            <div class="text-center">
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-          </div>
+          <CustomLoader />
         )}
         <audio ref={(ref) => (this.music = ref)} />
       </div>

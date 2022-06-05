@@ -11,6 +11,13 @@ export function getAppPlaylist() {
   return http.get(`${url}/get_app_playlists`);
 }
 
+export function get_app_playlist_song(name) {
+  return http.get(`${url}/get_app_playlist_song?name='trending_songs'`);
+}
+export function get_app_playlist_genre(name) {
+  return http.get(`${url}/get_app_playlist_genre?name='trending_songs'`);
+}
+
 export function getPlaylistSongs(token, playlist_id) {
   return http.get(`${url}/getsongs/${playlist_id}`, {
     headers: { authorization: token },

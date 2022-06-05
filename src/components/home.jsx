@@ -10,7 +10,7 @@ import "./home.css";
 import MusicInfo from "./musicPlayer/musicInfo";
 import MobileMusicPlayer from "./musicPlayer/mobileMusiCPlayer";
 import { getCurrentUser } from "../services/userService";
-import { getAppPlaylist } from "../services/playlistService";
+//import { getAppPlaylist } from "../services/playlistService";
 import Footer from "./footer";
 import Playlist_Model_1 from "./musicType/playlist_model_1";
 import Playlist_Model_2 from "./musicType/playlist_model_2";
@@ -41,9 +41,9 @@ class Home extends Component {
   componentDidMount() {
     let { option, type } = this.props.match.params;
 
-    getAppPlaylist().then((response) => {
-      this.setState({ playlist_type: response.data.playlists });
-    });
+    // getAppPlaylist().then((response) => {
+    //   this.setState({ playlist_type: response.data.playlists });
+    // });
 
     if (option === "playlist") {
       let token = JSON.parse(localStorage.getItem("token"))
