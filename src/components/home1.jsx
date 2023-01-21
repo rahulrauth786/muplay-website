@@ -10,15 +10,13 @@ import { getPlaylistSong, getSongs } from "./../services/musicService";
 import "./home.css";
 
 import { getCurrentUser } from "../services/userService";
-import { getAppPlaylist } from "../services/playlistService";
-import { gethorizonatalscorcard } from "../services/musicService";
+
 import App_Playlist from "./app_playlist";
-import Admindashboard from "./admin/dashboard";
-import Mymusic from "./myProfile/myMusic";
+
 import App_Music_List from "./app_music_list";
 import App_Play_Box from "./app_play_box";
 import Footer from "./footer";
-import PageNotFound from "./pageNotFound";
+
 import CustomLoader from "./common/loader";
 
 class Home1 extends Component {
@@ -45,111 +43,55 @@ class Home1 extends Component {
     this.state.loading = false;
   }
   async componentDidMount() {
-    let { option, type } = this.props.match.params;
-
-    if (option === "playlist") {
-      let token = JSON.parse(localStorage.getItem("token"))
-        ? JSON.parse(localStorage.getItem("token"))
-        : null;
-      if (token !== null) {
-        getCurrentUser(token).then((user) => {
-          let viewAll = option ? true : false;
-          getPlaylistSong(type, token).then((response) => {
-            if (response.data.msg === "success") {
-              let songs = response.data.songs;
-              let currentSong = songs[0];
-              this.setState({ loading: true, currentSong, songs, viewAll });
-              this.music.src = currentSong.track;
-              this.music.addEventListener("timeupdate", (e) => {
-                this.setState({
-                  currentTime: e.target.currentTime,
-                  duration: e.target.duration,
-                });
-              });
-            } else {
-              this.setState({ loading: true, viewAll });
-            }
-          });
-        });
-      }
-    } else {
-      let viewAll = option ? true : false;
-      getSongs(option, type).then((response) => {
-        if (response.data.msg === "success") {
-          let songs = response.data.songs;
-          let currentSong = songs[0];
-          this.setState({ loading: true, currentSong, songs, viewAll });
-          this.music.src = currentSong.track;
-          this.music.addEventListener("timeupdate", (e) => {
-            this.setState({
-              currentTime: e.target.currentTime,
-              duration: e.target.duration,
-            });
-          });
-        } else {
-          this.setState({ loading: true, viewAll });
-        }
-      });
-    }
+    // { option, type } = this.props.match.params;
+    this.setState({ loading: true });
+    // if (option === "playlist") {
+    //   let token = JSON.parse(localStorage.getItem("token"))
+    //     ? JSON.parse(localStorage.getItem("token"))
+    //     : null;
+    //   if (token !== null) {
+    //     getCurrentUser(token).then((user) => {
+    //       let viewAll = option ? true : false;
+    //       getPlaylistSong(type, token).then((response) => {
+    //         if (response.data.msg === "success") {
+    //           let songs = response.data.songs;
+    //           let currentSong = songs[0];
+    //           this.setState({ loading: true, currentSong, songs, viewAll });
+    //           this.music.src = currentSong.track;
+    //           this.music.addEventListener("timeupdate", (e) => {
+    //             this.setState({
+    //               currentTime: e.target.currentTime,
+    //               duration: e.target.duration,
+    //             });
+    //           });
+    //         } else {
+    //           this.setState({ loading: true, viewAll });
+    //         }
+    //       });
+    //     });
+    //   }
+    // } else {
+    //   let viewAll = option ? true : false;
+    //   getSongs(option, type).then((response) => {
+    //     if (response.data.msg === "success") {
+    //       let songs = response.data.songs;
+    //       let currentSong = songs[0];
+    //       this.setState({ loading: true, currentSong, songs, viewAll });
+    //       this.music.src = currentSong.track;
+    //       this.music.addEventListener("timeupdate", (e) => {
+    //         this.setState({
+    //           currentTime: e.target.currentTime,
+    //           duration: e.target.duration,
+    //         });
+    //       });
+    //     } else {
+    //       this.setState({ loading: true, viewAll });
+    //     }
+    //   });
+    // }
   }
 
-  // async componentDidMount() {
-  //   let { option, type } = this.props.match.params;
-  //   if (option === "playlist") {
-  //     let token = JSON.parse(localStorage.getItem("token"))
-  //       ? JSON.parse(localStorage.getItem("token"))
-  //       : null;
-  //     if (token !== null) {
-  //       getCurrentUser(token)
-  //         .then(async (data) => {
-  //           try {
-  //             let viewAll = option ? true : false;
-  //             let response = await getPlaylistSong(type, token);
 
-  //             console.log(response);
-  //             if (response.data.msg === "success") {
-  //               let songs = response.data.songs;
-  //               let currentSong = songs[0];
-  //               this.setState({ loading: true, currentSong, songs, viewAll });
-  //               this.music.src = currentSong.track;
-  //               this.music.addEventListener("timeupdate", (e) => {
-  //                 this.setState({
-  //                   currentTime: e.target.currentTime,
-  //                   duration: e.target.duration,
-  //                 });
-  //               });
-  //             } else {
-  //               this.setState({ loading: true, viewAll });
-  //             }
-  //           } catch (error) {
-  //             console.log(error);
-  //           }
-  //         })
-  //         .catch((err) => console.log(err));
-  //     }
-  //   } else {
-  //     try {
-  //       let viewAll = option ? true : false;
-  //       let response = await getSongs(option, type);
-  //       if (response.data.msg === "success") {
-  //         let songs = response.data.songs;
-  //         let currentSong = songs[0];
-  //         this.setState({ loading: true, currentSong, songs, viewAll });
-  //         this.music.src = currentSong.track;
-  //         this.music.addEventListener("timeupdate", (e) => {
-  //           this.setState({
-  //             currentTime: e.target.currentTime,
-  //             duration: e.target.duration,
-  //           });
-  //         });
-  //       } else {
-  //         this.setState({ loading: true, viewAll });
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // }
 
   async componentDidUpdate(prevProps, prevState) {
     //handle api for songs fetch
@@ -182,7 +124,7 @@ class Home1 extends Component {
     this.changeSongState(prevState);
   }
   componentWillUnmount() {
-    if (this.music) this.music.removeEventListener("timeupdate", () => {});
+    if (this.music) this.music.removeEventListener("timeupdate", () => { });
   }
 
   changeSongState(prevState) {
@@ -213,31 +155,6 @@ class Home1 extends Component {
     }
   }
 
-  // saveSongState = (song) => {
-  //   alert("song");
-  //   let currentSong = { ...this.state.currentSong };
-  //   let songs = [...this.state.songs];
-  //   if (song.id === currentSong.id) {
-  //     let index = songs.findIndex((song) => song.id === currentSong.id);
-  //     let updateSong = { ...songs[index], music: !songs[index].music };
-  //     songs[index] = updateSong;
-  //     currentSong.music = !currentSong.music;
-  //   } else {
-  //     let cindex = songs.findIndex((song) => song.id === song.id);
-
-  //     let updateSong = { ...songs[cindex], music: !songs[cindex].music };
-  //     songs[cindex] = updateSong;
-
-  //     let pindex = songs.findIndex(
-  //       (song) => song.id === this.state.currentSong.id
-  //     );
-  //     let updatePrevSong = { ...songs[pindex], music: false };
-  //     songs[pindex] = updatePrevSong;
-  //     currentSong = song;
-  //     currentSong.music = !currentSong.music;
-  //   }
-  //   this.setState({ currentSong, songs });
-  // };
 
   changeSongSound = (value) => {
     this.music.volume = value;

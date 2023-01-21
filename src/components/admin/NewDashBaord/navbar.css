@@ -1,0 +1,11 @@
+.main{
+background: rgb(20, 0, 36);
+    background: linear-gradient(90deg, rgba(20, 0, 36, 1) 0%, rgba(121, 9, 109, 1) 36%, rgba(0, 212, 255, 1) 100%);
+}
+
+
+.labels {
+    font-size: clamp(18px, 2vw, 22px);
+    border-top-right-radius: 50px;
+    font-weight: 700px;
+}

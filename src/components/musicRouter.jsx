@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import AddNewUser from "./admin/addNewUser";
 import Admindashboard from "./admin/dashboard";
+import NewAdmindashboard from "./admin/NewDashBaord";
 import Footer from "./footer";
 import Home from "./home";
 import Home1 from "./home1";
@@ -21,7 +22,8 @@ class MusicAppRouter extends Component {
         <Route path="/mymusic" component={Mymusic} exact={true} />
         <Route path="/user" component={UserOption} exact={true} />
         <Route path="/login" component={LoginForm} exact={true} />
-        <Route path="/dashboard" component={Admindashboard} exact={true} />{" "}
+        <Route path="/dashboard" component={Admindashboard} exact={true} />
+        <Route path="/newdashboard" component={NewAdmindashboard} exact={true} />
         <Route path="/addNewUser" component={AddNewUser} exact={true} />
         <Route
           path="/search/:searchType"

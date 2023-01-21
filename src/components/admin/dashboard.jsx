@@ -28,7 +28,7 @@ class Admindashboard extends Component {
       // let token = JSON.parse(sessionStorage.getItem("token"));
       // let response = getCurrentUser(token);
       // response.then((user) => this.setState({ user }));
-    } catch (error) {}
+    } catch (error) { }
   }
 
   handleOption = (opt) => {

@@ -1,0 +1,33 @@
+.main_left {
+    background-color: #242729;
+    height: 100%;
+}
+
+.main_header {
+    background-color: #F1F1F1;
+    height: 10%;
+    margin-left: 6px;
+        margin-right: 6px;
+
+}
+
+.main_center{
+    background-color: #F1F1F1;
+    height: 84%;
+    margin-left: 6px;
+        margin-right: 6px;
+
+}
+
+.main_footer {
+    background-color: #F1F1F1;
+   
+    height: 6%;
+    margin-left: 6px;
+    margin-right: 6px;
+
+}
+
+
+
+

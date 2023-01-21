@@ -19,7 +19,7 @@ class SearchMusic extends Component {
     try {
       let response = await searchSong(this.props.match.params.searchType);
       this.setState({ booking: response.data });
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async componentDidUpdate(prevProps) {
@@ -30,7 +30,7 @@ class SearchMusic extends Component {
         let response = await searchSong(this.props.match.params.searchType);
         console.log(response);
         this.setState({ booking: response.data });
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
